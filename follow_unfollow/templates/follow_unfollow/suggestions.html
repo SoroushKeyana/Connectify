@@ -1,0 +1,35 @@
+{% extends 'feed/base.html' %}
+
+{% load static %}
+
+{% block title %}Suggestions{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="d-flex">
+                <a href="{% url 'friends' %}" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left fa-solid"></i> Back
+                </a>
+            </div>
+                <h2 class="friend-title text-center">Friend Suggestions</h2>
+        </div>
+
+        <div class="friends-container shadow rounded border mt-3 p-3">
+            {% for suggestion in suggestion_list %}
+                <div class="friend-tile">
+                    <div class="profile-container">
+                        <a href="{% url 'user_profile' username=suggestion.user.username %}" class="no-decoration">
+                            <img src="{{ suggestion.profile_pic.url }}" alt="{{ suggestion.user.username }}'s Profile Picture" class="profile-pic">
+                            <h3 class="friend-text no-decoration text-dark mt-2">{{ suggestion.user.username }}</h3>
+                        </a>
+                        <form method="post" action="{% url 'follow_user' user_id=suggestion.user.id %}">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-primary friends-button mt-2 px-5 fw-bold">Follow</button>
+                        </form>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

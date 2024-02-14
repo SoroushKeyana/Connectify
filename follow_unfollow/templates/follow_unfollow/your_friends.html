@@ -1,0 +1,41 @@
+{% extends 'feed/base.html' %}
+
+{% load static %}
+
+{% block title %}Your Friends{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row justify-content-start">
+            <div class="d-flex">
+                <a href="{% url 'friends' %}" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left fa-solid"></i> Back
+                </a>
+            </div>
+        </div>
+            <div class="friend-text text-center">
+                <h2>Your Friends</h2>
+            </div>
+        <div class="friends-container shadow rounded border mt-3 p-3">
+            {% for friend in your_friends_list %}
+                <div class="profile-container friend-tile">
+                    <a href="{% url 'user_profile' username=friend.friend.username %}" class="no-decoration">
+                        {% if friend.friend.userprofile.profile_pic %}
+                            <img src="{{ friend.friend.userprofile.profile_pic.url }}" alt="{{ friend.friend.username }}'s Profile Picture" class="profile-pic">
+                        {% else %}
+                            <!-- Provide a default image or handle the case where the profile pic is missing -->
+                            <img src="{% static 'profile_pics/default_profile_pic.jpg' %}" alt="{{ friend.friend.username }}'s Profile Picture" class="profile-pic">
+                        {% endif %}
+                        <h3 class="friend-text no-decoration text-dark">{{ friend.friend.username }}</h3>
+                    </a>
+                    <!-- Add the unfollow button here -->
+                    <form method="post" action="{% url 'unfollow_user' user_id=friend.friend.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-secondary friends-button">Unfollow</button>
+                    </form>
+                </div>
+            {% endfor %}
+        </div>
+        
+    </div>
+{% endblock %}

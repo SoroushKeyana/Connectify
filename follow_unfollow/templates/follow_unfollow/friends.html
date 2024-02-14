@@ -1,0 +1,27 @@
+{% extends 'feed/base.html' %}
+
+{% load static %}
+
+{% block title %}Friends{% endblock %}
+
+{% block content %}
+    <div class="container d-flex">
+        <div class="side w-50 d-flex align-items-center justify-content-center bg-light m-1 rounded flex-column">
+            <h3 class="friend-title">Find New Friends</h3>
+            <form method="post" action="{% url 'suggestions' %}">
+                {% csrf_token %}
+                <button type="submit" class="friend-btn btn btn-primary"><i class="fa-solid fa-user-plus"></i></button>
+            </form>
+        </div>
+        <div class="side w-50 d-flex align-items-center justify-content-center bg-light m-1 rounded flex-column">
+            <h3 class="friend-title">Your Friends</h3>
+            <form method="post" action="{% url 'your_friends' %}">
+                {% csrf_token %}
+                <button type="submit" class="friend-btn btn btn-primary"><i class="fa-solid fa-people-group"></i></button>
+            </form>
+        </div>
+
+
+       
+    </div>
+{% endblock %} 
